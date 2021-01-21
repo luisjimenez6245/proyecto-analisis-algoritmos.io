@@ -1,0 +1,1 @@
+sass --watch ./public/styles/bulma.sass:./public/styles/bulma.css 
