@@ -103,11 +103,8 @@ function removeFromArray(array, itemToRemove) {
 }
 
 function selectItem(node) {
-    let callback = () => {
         cy.$(`#${node.id}`).addClass('highlighted');
-
-    }
-    setTimeout(callback, 1000);
+    
 }
 
 function prismAlgorimth(nodes = [], vertices = []) {
@@ -116,32 +113,32 @@ function prismAlgorimth(nodes = [], vertices = []) {
 }
 
 function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], usedNodes = []) {
+    let i = 1;
     selectItem(actualNode);
-    vertices.map((item) => {
-        if (item.connects.includes(actualNode.id)) {
-            bag.push(item)
-        }
-    });
-    let minVer = bag[0]
-    bag.map((item) => {
-        if (item.weight < minVer.weight) {
-            minVer = item
-        }
-    });
-    selectItem(minVer)
-    vertices = removeFromArray(vertices, minVer)
-    bag = removeFromArray(bag, minVer);
-    minVer.connects = removeFromArray(minVer.connects, actualNode.id)
-    let newNode = searchOnElement(nodes, minVer.connects[0])
-    usedNodes.push(newNode.id)
-    if (usedNodes.length !== nodes.length){
+    while(usedNodes.length < nodes.length){
+        vertices.map((item) => {
+            if (item.connects.includes(actualNode.id)) {
+                bag.push(item)
+            }
+        });
+        let minVer = bag[0]
+        bag.map((item) => {
+            if (item.weight < minVer.weight) {
+                minVer = item
+            }
+        });
+        vertices = removeFromArray(vertices, minVer)
+        bag = removeFromArray(bag, minVer);
+        minVer.connects = removeFromArray(minVer.connects, actualNode.id);
+        let newNode = searchOnElement(nodes, minVer.connects[0])
+        usedNodes.push(newNode.id);
         let callback = ()=>{
-            prismAlgorimthHelper(newNode, nodes, vertices, bag, usedNodes)
+            selectItem(minVer);
+            selectItem(newNode);
         }
-        setTimeout(callback, 1000);
-    }
-    else{
-        selectItem(newNode);
+        actualNode = newNode;
+        i += 1;
+        setTimeout(callback, i * 1000);
     }
 }
 
