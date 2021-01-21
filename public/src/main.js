@@ -56,8 +56,8 @@ let testVertices = [{
 
 
 function getDrawElements(nodes, vertices) {
-    const height = $(document).height() - 300;
-    const width = $(document).width() - 100;
+    const height = $("#cy").height() - 100;
+    const width = $("#cy").width() - 100;
     let result = []
     nodes.map((item) => {
         result.push({
@@ -65,7 +65,7 @@ function getDrawElements(nodes, vertices) {
             data: item,
             position: {
                 x: getRandomInt(100, width),
-                y: getRandomInt(0, height)
+                y: getRandomInt(100, height)
             }
         }, )
     });
@@ -144,6 +144,31 @@ function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], u
     }
 }
 
+let modalState = false
+
+function changeModalState(id){
+    modalState = !modalState
+    if(modalState){
+        $(`#${id}`).addClass('is-active')
+    }
+    else{
+        $(`#${id}`).removeClass('is-active')
+    }
+}
+
+let burgerState = false
+
+function changeBurgerState(){
+    burgerState = !burgerState
+    if(burgerState){
+        $("#burger").addClass('is-active')
+        $("#navbar-menu").addClass('is-active')
+    }
+    else{
+        $("#burger").removeClass('is-active')
+        $("#navbar-menu").removeClass('is-active')
+    }
+}
 
 
 

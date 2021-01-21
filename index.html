@@ -14,7 +14,7 @@
     <script src="./public/src/jquery.js"></script>
     <script src="./public/src/cytoescape.js"></script>
     <script src="./public/src/main.js"></script>
-    <title>Documentos Quintaroo</title>
+    <title>Algorímo Prim</title>
 </head>
 
 <body>
@@ -26,42 +26,73 @@
                     <img src="http://www.escom.ipn.mx/images/logoESCOM.png" width="60" height="60">
                 </a>
 
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-                    data-target="navbarBasicExample">
+                <a role="button" class="navbar-burger" id="burger" aria-label="menu" aria-expanded="false"
+                    data-target="navbarBasicExample" onclick="changeBurgerState()">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
             </div>
 
-            <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-menu" id="navbar-menu">
                 <div class="navbar-start">
-                    
+
                 </div>
 
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-primary">
-                                <strong>Sign up</strong>
-                            </a>
-                            <a class="button is-light">
-                                Log in
+                            <button class="button is-primary" onclick="changeModalState('info-modal')">
+                                <strong>Información</strong>
+                            </button>
+                            <a class="button is-light" onclick="changeModalState('config-modal')">
+                                Ajustes
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
-        <section class="hero is-fullheight-with-navbar ">
-            <div class="hero-head">
-
+        <div class="modal" id="info-modal">
+            <div class="modal-background" onclick="changeModalState('info-modal')"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Acerca del algorítmo</p>
+                    <button class="delete" aria-label="close" onclick="changeModalState('info-modal')"></button>
+                </header>
+                <section class="modal-card-body">
+                    <!-- Content ... -->
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button" onclick="changeModalState('info-modal')">Aceptar</button>
+                </footer>
             </div>
-            <div class="hero-body" id="cy" style="min-height: 90%; ">
-
+        </div>
+        <div class="modal" id="config-modal">
+            <div class="modal-background" onclick="changeModalState('config-modal')"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Configuración</p>
+                    <button class="delete" aria-label="close" onclick="changeModalState('config-modal')"></button>
+                </header>
+                <section class="modal-card-body">
+                    <!-- Content ... -->
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button" onclick="changeModalState('config-modal')">Aceptar</button>
+                </footer>
             </div>
-            <div class="hero-foot">
-
+        </div>
+        <section class="hero is-fullheight-with-navbar  has-background-light">
+            <div class="hero-body p-0 m-0">
+                <div class="container is-fluid p-0 m-0">
+                    <div class="columns  p-0 m-0">
+                        <div class="column is-full m-0 p-0">
+                            <div class="hero is-fullheight-with-navbar" id="cy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
         <footer class="footer">
@@ -103,84 +134,11 @@
                 }
             },
 
-
             {
                 "selector": "edge[label]",
                 "style": {
                     "label": "data(label)",
                     "width": 3
-                }
-            },
-
-            {
-                "selector": ".top-left",
-                "style": {
-                    "text-valign": "top",
-                    "text-halign": "left"
-                }
-            },
-
-            {
-                "selector": ".top-center",
-                "style": {
-                    "text-valign": "top",
-                    "text-halign": "center"
-                }
-            },
-
-            {
-                "selector": ".top-right",
-                "style": {
-                    "text-valign": "top",
-                    "text-halign": "right"
-                }
-            },
-
-            {
-                "selector": ".center-left",
-                "style": {
-                    "text-valign": "center",
-                    "text-halign": "left"
-                }
-            },
-
-            {
-                "selector": ".center-center",
-                "style": {
-                    "text-valign": "center",
-                    "text-halign": "center"
-                }
-            },
-
-            {
-                "selector": ".center-right",
-                "style": {
-                    "text-valign": "center",
-                    "text-halign": "right"
-                }
-            },
-
-            {
-                "selector": ".bottom-left",
-                "style": {
-                    "text-valign": "bottom",
-                    "text-halign": "left"
-                }
-            },
-
-            {
-                "selector": ".bottom-center",
-                "style": {
-                    "text-valign": "bottom",
-                    "text-halign": "center"
-                }
-            },
-
-            {
-                "selector": ".bottom-right",
-                "style": {
-                    "text-valign": "bottom",
-                    "text-halign": "right"
                 }
             },
 
@@ -221,8 +179,8 @@
             {
                 "selector": ".highlighted",
                 "style": {
-                    'background-color': '#61bffc',
-                    'line-color': '#61bffc',
+                    'background-color': '#001B48',
+                    'line-color': '#018ABE',
                     'target-arrow-color': '#61bffc',
                     'transition-property': 'background-color, line-color, target-arrow-color',
                     'transition-duration': '0.5s'
@@ -239,7 +197,7 @@
             }
         ],
         layout: {
-           
+
         }
     });
     var eles = cy.add(getDrawElements(testNodes, testVertices), );
