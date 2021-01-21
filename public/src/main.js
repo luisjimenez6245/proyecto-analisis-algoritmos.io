@@ -103,8 +103,8 @@ function removeFromArray(array, itemToRemove) {
 }
 
 function selectItem(node) {
-        cy.$(`#${node.id}`).addClass('highlighted');
-    
+    cy.$(`#${node.id}`).addClass('highlighted');
+
 }
 
 function prismAlgorimth(nodes = [], vertices = []) {
@@ -115,13 +115,15 @@ function prismAlgorimth(nodes = [], vertices = []) {
 function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], usedNodes = []) {
     let i = 1;
     selectItem(actualNode);
-    while(usedNodes.length < nodes.length){
+    while (usedNodes.length < nodes.length) {
         vertices.map((item) => {
             if (item.connects.includes(actualNode.id)) {
                 bag.push(item)
             }
         });
-        let minVer = bag[0]
+        let minVer = {
+            weight: 1000
+        }
         bag.map((item) => {
             if (item.weight < minVer.weight) {
                 minVer = item
@@ -130,15 +132,17 @@ function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], u
         vertices = removeFromArray(vertices, minVer)
         bag = removeFromArray(bag, minVer);
         minVer.connects = removeFromArray(minVer.connects, actualNode.id);
-        let newNode = searchOnElement(nodes, minVer.connects[0])
-        usedNodes.push(newNode.id);
-        let callback = ()=>{
-            selectItem(minVer);
-            selectItem(newNode);
+        if (!usedNodes.includes(minVer.connects[0])) {
+            let newNode = searchOnElement(nodes, minVer.connects[0])
+            usedNodes.push(newNode.id);
+            let callback = () => {
+                selectItem(minVer);
+                selectItem(newNode);
+            }
+            actualNode = newNode;
+            i += 1;
+            setTimeout(callback, i * 1000);
         }
-        actualNode = newNode;
-        i += 1;
-        setTimeout(callback, i * 1000);
     }
 }
 
