@@ -117,13 +117,11 @@ function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], u
     selectItem(actualNode);
     while (usedNodes.length < nodes.length) {
         vertices.map((item) => {
-            if (item.connects.includes(actualNode.id)) {
+            if (item.connects.includes(actualNode.id)  && !bag.includes(item)) {
                 bag.push(item)
             }
         });
-        let minVer = {
-            weight: 1000
-        }
+        let minVer = bag[0]
         bag.map((item) => {
             if (item.weight < minVer.weight) {
                 minVer = item
