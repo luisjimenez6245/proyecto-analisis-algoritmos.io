@@ -11,48 +11,121 @@
  }
 */
 
-let testNodes = [{
-        id: 'n0'
-    },
-    {
-        id: 'n1'
-    },
-    {
-        id: 'n2'
-    },
-    {
-        id: 'n3'
-    }
-]
+let testNodes = createNodes(4)
 
-let testVertices = [{
-        id: 'v1',
-        connects: ['n2', 'n1'],
-        weight: 1
-    },
-    {
-        id: 'v2',
-        connects: ['n0', 'n1'],
-        weight: 4
-    }, {
-        id: 'v3',
-        connects: ['n1', 'n3'],
-        weight: 5
-    }, {
-        id: 'v4',
-        connects: ['n2', 'n0'],
-        weight: 6
-    }, {
-        id: 'v5',
-        connects: ['n0', 'n3'],
-        weight: 2
-    },
-    {
-        id: 'v6',
-        connects: ['n3', 'n2'],
-        weight: 10
+let testVertices = createVertices(testNodes)
+
+let nodes = 5
+var cy;
+
+function initializeProject(){
+    cy = cytoscape({
+        container: document.getElementById('cy'),
+        style: [{
+                "selector": "node[label]",
+                "style": {
+                    "label": "data(label)"
+                }
+            },
+            {
+                "selector": "edge",
+                "style": {
+                    'curve-style': 'bezier',
+                    'width': 4,
+                    'line-color': '#ddd',
+                    'target-arrow-color': '#ddd'
+                }
+            },
+
+            {
+                "selector": "node",
+                "style": {
+                    'content': 'data(id)'
+                }
+            },
+
+            {
+                "selector": "edge[label]",
+                "style": {
+                    "label": "data(label)",
+                    "width": 3
+                }
+            },
+            {
+                "selector": ".background",
+                "style": {
+                    "text-background-opacity": 1,
+                    "color": "#fff",
+                    "text-background-color": "#000",
+                    "text-background-shape": "roundrectangle",
+                    "text-border-color": "#000",
+                    "text-border-width": 1,
+                    "text-border-opacity": 1
+                }
+            },
+            {
+                "selector": ".highlighted",
+                "style": {
+                    'background-color': '#001B48',
+                    'line-color': '#018ABE',
+                    'target-arrow-color': '#61bffc',
+                    'transition-property': 'background-color, line-color, target-arrow-color',
+                    'transition-duration': '0.5s'
+                }
+            },
+        ],
+        layout: {
+
+        }
+    });
+}
+
+function createVertices(nodes = []){
+  let result = []
+  let vertices = []
+  for (let i = 0; i < nodes.length - 1; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+        vertices.push([nodes[i].id ,nodes[j].id]);
     }
-]
+  }
+  vertices.map((item, id) => {
+    result.push( {
+        id: `v${id}`,
+        connects: item,
+        weight: getRandomInt(1, 10)
+    })
+  })
+  return result
+}
+
+function createNodes(len = 5){
+    let result = []
+    for(let i = 0; i < len; ++i){
+        result.push(
+            {
+                id : `n${i}`
+                
+            }
+        )
+    }
+    return result
+}
+
+
+function setNodeNumber(){
+    nodes = $("#nodeNumber").val()
+    changeModalState('config-modal');
+    resetPanel()
+    let n = createNodes(nodes)
+    let v = createVertices(n)
+    cy.add(getDrawElements(n, v))
+    prismAlgorimth(n, v)
+}
+
+function resetPanel(){
+    cy.destroy();
+    initializeProject();
+}
 
 
 function getDrawElements(nodes, vertices) {
@@ -82,13 +155,14 @@ function getDrawElements(nodes, vertices) {
             classes: 'background'
         })
     })
+    console.log(result)
     return result
 }
 
 function searchOnElement(elements = [], id) {
     for (let i = 0; i < elements.length; ++i) {
         if (elements[i].id == id) {
-            return elements[i]
+            return  Object.assign({}, elements[i]);
         }
     }
 }
@@ -107,7 +181,9 @@ function selectItem(node) {
 
 }
 
-function prismAlgorimth(nodes = [], vertices = []) {
+function prismAlgorimth(nodesHelper = [], verticesHelper = []) {
+    let nodes = [...nodesHelper]
+    let vertices = [...verticesHelper]
     let firstNode = nodes[getRandomInt(0, nodes.length)]
     prismAlgorimthHelper(firstNode, nodes, vertices, [], [firstNode.id])
 }
@@ -124,14 +200,18 @@ function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], u
         let minVer = bag[0]
         bag.map((item) => {
             if (item.weight < minVer.weight) {
-                minVer = item
+                minVer = item;
             }
         });
         vertices = removeFromArray(vertices, minVer)
         bag = removeFromArray(bag, minVer);
         minVer.connects = removeFromArray(minVer.connects, actualNode.id);
-        if (!usedNodes.includes(minVer.connects[0])) {
+        usedNodes.map(item => {
+            removeFromArray(minVer.connects, item);
+        })
+        if (usedNodes.length > 0) {
             let newNode = searchOnElement(nodes, minVer.connects[0])
+            if(newNode !== undefined){
             usedNodes.push(newNode.id);
             let callback = () => {
                 selectItem(minVer);
@@ -140,6 +220,7 @@ function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], u
             actualNode = newNode;
             i += 1;
             setTimeout(callback, i * 1000);
+        }
         }
     }
 }

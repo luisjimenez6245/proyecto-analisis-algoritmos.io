@@ -76,10 +76,18 @@
                     <button class="delete" aria-label="close" onclick="changeModalState('config-modal')"></button>
                 </header>
                 <section class="modal-card-body">
-                    <!-- Content ... -->
+                    <div class="form">
+                        <div class="field">
+                            <label class="label">Nodos</label>
+                            <div class="control">
+                              <input class="input" type="number" id="nodeNumber" placeholder="nodos" min="2" max="20" value="5"/>
+                            </div>
+                          </div>
+                    </div>
                 </section>
                 <footer class="modal-card-foot">
-                    <button class="button" onclick="changeModalState('config-modal')">Aceptar</button>
+                    <button class="button" onclick="setNodeNumber()">Aceptar</button>
+                    <button class="button is-danger" onclick="changeModalState('config-modal')">Cancelar</button>
                 </footer>
             </div>
         </div>
@@ -98,7 +106,7 @@
         <footer class="footer">
             <div class="content has-text-centered">
                 <p>
-                    <strong>Bulma</strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is
+                    <strong></strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is
                     licensed
                     <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
                     is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
@@ -109,100 +117,9 @@
 </body>
 
 <script>
-    var cy = cytoscape({
-        container: document.getElementById('cy'),
-        style: [{
-                "selector": "node[label]",
-                "style": {
-                    "label": "data(label)"
-                }
-            },
-            {
-                "selector": "edge",
-                "style": {
-                    'curve-style': 'bezier',
-                    'width': 4,
-                    'line-color': '#ddd',
-                    'target-arrow-color': '#ddd'
-                }
-            },
-
-            {
-                "selector": "node",
-                "style": {
-                    'content': 'data(id)'
-                }
-            },
-
-            {
-                "selector": "edge[label]",
-                "style": {
-                    "label": "data(label)",
-                    "width": 3
-                }
-            },
-
-            {
-                "selector": ".multiline-manual",
-                "style": {
-                    "text-wrap": "wrap"
-                }
-            },
-
-            {
-                "selector": ".multiline-auto",
-                "style": {
-                    "text-wrap": "wrap",
-                    "text-max-width": 80
-                }
-            },
-
-            {
-                "selector": ".autorotate",
-                "style": {
-                    "edge-text-rotation": "autorotate"
-                }
-            },
-
-            {
-                "selector": ".background",
-                "style": {
-                    "text-background-opacity": 1,
-                    "color": "#fff",
-                    "text-background-color": "#000",
-                    "text-background-shape": "roundrectangle",
-                    "text-border-color": "#000",
-                    "text-border-width": 1,
-                    "text-border-opacity": 1
-                }
-            },
-            {
-                "selector": ".highlighted",
-                "style": {
-                    'background-color': '#001B48',
-                    'line-color': '#018ABE',
-                    'target-arrow-color': '#61bffc',
-                    'transition-property': 'background-color, line-color, target-arrow-color',
-                    'transition-duration': '0.5s'
-                }
-            },
-
-            {
-                "selector": ".outline",
-                "style": {
-                    "color": "#fff",
-                    "text-outline-color": "#888",
-                    "text-outline-width": 3
-                }
-            }
-        ],
-        layout: {
-
-        }
-    });
-    var eles = cy.add(getDrawElements(testNodes, testVertices), );
+   initializeProject()
+  cy.add(getDrawElements(testNodes, testVertices), );
     prismAlgorimth(testNodes, testVertices)
-    cy.removeData()
 </script>
 
 </html>
