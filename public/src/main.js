@@ -25,7 +25,7 @@ function initializeProject() {
                 "selector": "node[label]",
                 "style": {
                     "label": "data(label)",
-                    "font-family" : "Quicksand"
+                    "font-family": "Quicksand"
                 }
             },
             {
@@ -33,7 +33,7 @@ function initializeProject() {
                 "style": {
                     'curve-style': 'bezier',
                     'width': 4,
-                    "font-family" : "Quicksand",
+                    "font-family": "Quicksand",
                     'line-color': '#ddd',
                     'target-arrow-color': '#ddd'
                 }
@@ -42,7 +42,7 @@ function initializeProject() {
             {
                 "selector": "node",
                 "style": {
-                    "font-family" : "Quicksand",
+                    "font-family": "Quicksand",
                     'content': 'data(id)'
                 }
             },
@@ -50,7 +50,7 @@ function initializeProject() {
             {
                 "selector": "edge[label]",
                 "style": {
-                    "font-family" : "Quicksand",
+                    "font-family": "Quicksand",
                     "label": "data(label)",
                     "width": 3
                 }
@@ -110,12 +110,16 @@ function createNodes(len = 5) {
 function setNodeNumber() {
     nodes = $("#nodeNumber").val()
     if (nodes < 20) {
-        changeModalState('config-modal');
-        resetPanel()
-        let n = createNodes(nodes)
-        let v = createVertices(n)
-        cy.add(getDrawElements(n, v))
-        prismAlgorimth(n, v)
+        if (nodes > 2) {
+            changeModalState('config-modal');
+            resetPanel()
+            let n = createNodes(nodes)
+            let v = createVertices(n)
+            cy.add(getDrawElements(n, v))
+            prismAlgorimth(n, v)
+        } else {
+            alert("Son pocos nodos, saludos")
+        }
         return
     }
     alert("Son demasidos nodos, saludos")
@@ -207,7 +211,7 @@ function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], u
         usedNodes.map(item => {
             removeFromArray(minVer.connects, item);
         })
-        if(minVer.connects.length > 0) {
+        if (minVer.connects.length > 0) {
             let newNode = searchOnElement(nodes, minVer.connects[0])
             if (newNode !== undefined) {
                 usedNodes.push(newNode.id);
