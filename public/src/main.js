@@ -24,7 +24,8 @@ function initializeProject() {
         style: [{
                 "selector": "node[label]",
                 "style": {
-                    "label": "data(label)"
+                    "label": "data(label)",
+                    "font-family" : "Quicksand"
                 }
             },
             {
@@ -32,6 +33,7 @@ function initializeProject() {
                 "style": {
                     'curve-style': 'bezier',
                     'width': 4,
+                    "font-family" : "Quicksand",
                     'line-color': '#ddd',
                     'target-arrow-color': '#ddd'
                 }
@@ -40,6 +42,7 @@ function initializeProject() {
             {
                 "selector": "node",
                 "style": {
+                    "font-family" : "Quicksand",
                     'content': 'data(id)'
                 }
             },
@@ -47,6 +50,7 @@ function initializeProject() {
             {
                 "selector": "edge[label]",
                 "style": {
+                    "font-family" : "Quicksand",
                     "label": "data(label)",
                     "width": 3
                 }
@@ -54,13 +58,7 @@ function initializeProject() {
             {
                 "selector": ".background",
                 "style": {
-                    "text-background-opacity": 1,
-                    "color": "#fff",
-                    "text-background-color": "#000",
-                    "text-background-shape": "roundrectangle",
-                    "text-border-color": "#000",
-                    "text-border-width": 1,
-                    "text-border-opacity": 1
+                    "color": "#000",
                 }
             },
             {
