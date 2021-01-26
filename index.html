@@ -18,7 +18,6 @@
 </head>
 
 <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
@@ -61,7 +60,12 @@
                     <button class="delete" aria-label="close" onclick="changeModalState('info-modal')"></button>
                 </header>
                 <section class="modal-card-body">
-                    <!-- Content ... -->
+                    <div class="title">
+                        Minimun Spanning Tree (MST)
+                    </div>
+                    <p>
+                        En un grafo conexo, no dirigido, ponderado en aristas, el MST es un árbol tal que contiene todos los nodos del grafo original y un subconjunto de sus aristas, siendo este último conjunto con el menor peso acumulado posible.
+                    </p>
                 </section>
                 <footer class="modal-card-foot">
                     <button class="button" onclick="changeModalState('info-modal')">Aceptar</button>
@@ -80,9 +84,10 @@
                         <div class="field">
                             <label class="label">Nodos</label>
                             <div class="control">
-                              <input class="input" type="number" id="nodeNumber" placeholder="nodos" min="2" max="20" value="5"/>
+                                <input class="input" type="number" id="nodeNumber" placeholder="nodos" min="2" max="20"
+                                    value="5" />
                             </div>
-                          </div>
+                        </div>
                     </div>
                 </section>
                 <footer class="modal-card-foot">
@@ -106,10 +111,8 @@
         <footer class="footer">
             <div class="content has-text-centered">
                 <p>
-                    <strong></strong> by <a href="https://jgthms.com">Jeremy Thomas</a>. The source code is
-                    licensed
-                    <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
-                    is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+                    <strong>Minimun Spanning Tree (MST)</strong> por <a href="">Equipo de Moy</a>. El código está en el repo
+                    <a href="https://github.com/luisjimenez6245/proyecto-analisis-algoritmos.io">MIT</a>.  <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
                 </p>
             </div>
         </footer>
@@ -117,8 +120,8 @@
 </body>
 
 <script>
-   initializeProject()
-  cy.add(getDrawElements(testNodes, testVertices), );
+    initializeProject()
+    cy.add(getDrawElements(testNodes, testVertices), );
     prismAlgorimth(testNodes, testVertices)
 </script>
 

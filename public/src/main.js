@@ -18,7 +18,7 @@ let testVertices = createVertices(testNodes)
 let nodes = 5
 var cy;
 
-function initializeProject(){
+function initializeProject() {
     cy = cytoscape({
         container: document.getElementById('cy'),
         style: [{
@@ -80,49 +80,50 @@ function initializeProject(){
     });
 }
 
-function createVertices(nodes = []){
-  let result = []
-  let vertices = []
-  for (let i = 0; i < nodes.length - 1; i++) {
-    for (let j = i + 1; j < nodes.length; j++) {
-        vertices.push([nodes[i].id ,nodes[j].id]);
+function createVertices(nodes = []) {
+    let result = []
+    let vertices = []
+    for (let i = 0; i < nodes.length - 1; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+            vertices.push([nodes[i].id, nodes[j].id]);
+        }
     }
-  }
-  vertices.map((item, id) => {
-    result.push( {
-        id: `v${id}`,
-        connects: item,
-        weight: getRandomInt(1, 10)
+    vertices.map((item, id) => {
+        result.push({
+            id: `v${id}`,
+            connects: item,
+            weight: getRandomInt(1, 10)
+        })
     })
-  })
-  return result
+    return result
 }
 
-function createNodes(len = 5){
+function createNodes(len = 5) {
     let result = []
-    for(let i = 0; i < len; ++i){
-        result.push(
-            {
-                id : `n${i}`
-                
-            }
-        )
+    for (let i = 0; i < len; ++i) {
+        result.push({
+            id: `n${i}`
+        })
     }
     return result
 }
 
 
-function setNodeNumber(){
+function setNodeNumber() {
     nodes = $("#nodeNumber").val()
-    changeModalState('config-modal');
-    resetPanel()
-    let n = createNodes(nodes)
-    let v = createVertices(n)
-    cy.add(getDrawElements(n, v))
-    prismAlgorimth(n, v)
+    if (nodes < 20) {
+        changeModalState('config-modal');
+        resetPanel()
+        let n = createNodes(nodes)
+        let v = createVertices(n)
+        cy.add(getDrawElements(n, v))
+        prismAlgorimth(n, v)
+        return
+    }
+    alert("Son demasidos nodos, saludos")
 }
 
-function resetPanel(){
+function resetPanel() {
     cy.destroy();
     initializeProject();
 }
@@ -155,14 +156,13 @@ function getDrawElements(nodes, vertices) {
             classes: 'background'
         })
     })
-    console.log(result)
     return result
 }
 
 function searchOnElement(elements = [], id) {
     for (let i = 0; i < elements.length; ++i) {
         if (elements[i].id == id) {
-            return  Object.assign({}, elements[i]);
+            return Object.assign({}, elements[i]);
         }
     }
 }
@@ -193,7 +193,7 @@ function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], u
     selectItem(actualNode);
     while (usedNodes.length < nodes.length) {
         vertices.map((item) => {
-            if (item.connects.includes(actualNode.id)  && !bag.includes(item)) {
+            if (item.connects.includes(actualNode.id) && !bag.includes(item)) {
                 bag.push(item)
             }
         });
@@ -209,43 +209,41 @@ function prismAlgorimthHelper(actualNode, nodes = [], vertices = [], bag = [], u
         usedNodes.map(item => {
             removeFromArray(minVer.connects, item);
         })
-        if (usedNodes.length > 0) {
+        if(minVer.connects.length > 0) {
             let newNode = searchOnElement(nodes, minVer.connects[0])
-            if(newNode !== undefined){
-            usedNodes.push(newNode.id);
-            let callback = () => {
-                selectItem(minVer);
-                selectItem(newNode);
+            if (newNode !== undefined) {
+                usedNodes.push(newNode.id);
+                let callback = () => {
+                    selectItem(minVer);
+                    selectItem(newNode);
+                }
+                actualNode = newNode;
+                i += 1;
+                setTimeout(callback, i * 1000);
             }
-            actualNode = newNode;
-            i += 1;
-            setTimeout(callback, i * 1000);
-        }
         }
     }
 }
 
 let modalState = false
 
-function changeModalState(id){
+function changeModalState(id) {
     modalState = !modalState
-    if(modalState){
+    if (modalState) {
         $(`#${id}`).addClass('is-active')
-    }
-    else{
+    } else {
         $(`#${id}`).removeClass('is-active')
     }
 }
 
 let burgerState = false
 
-function changeBurgerState(){
+function changeBurgerState() {
     burgerState = !burgerState
-    if(burgerState){
+    if (burgerState) {
         $("#burger").addClass('is-active')
         $("#navbar-menu").addClass('is-active')
-    }
-    else{
+    } else {
         $("#burger").removeClass('is-active')
         $("#navbar-menu").removeClass('is-active')
     }
